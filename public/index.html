@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload | We Love Kittens!</title>
 </head>
+
 <body>
 
-    <form method="post" action="/api/single-file"
-        enctype="multipart/form-data">
+    <form method="post" action="/api/single-file" enctype="multipart/form-data">
 
         <input type="file" name="myfile" id="myfile" style="display:none"><br>
         <button type="button" id="uploadButton">Choose file to upluad</button>
         <div>Selected filename: <span id="filename"></span></div>
         <button type="submit">submit</button>
-    
+
     </form>
+
+    <img />
+
     <button id="submitXHR">Submit with XHR</button>
     <script>
-        const form = document.querySelector('form')
+        const input = document.querySelector('input')
+        const img = document.querySelector('img')
         document.getElementById('submitXHR').addEventListener('click', () => {
-            console.log('test')
             const xhr = new XMLHttpRequest();
-            xhr.open('POST','/api/single-file', false);
-            xhr.send(new FormData(form));
+            xhr.responseType = 'blob'
+            xhr.addEventListener('readystatechange', () => {
+                if (xhr.readyState === xhr.DONE) {
+                    img.src = URL.createObjectURL(xhr.response)
+                }
+            })
+            xhr.open('POST', '/api/single-file');
+            xhr.send(input.files[0]);
         });
-        
+
     </script>
 
     <script>
@@ -40,4 +50,5 @@
     </script>
 
 </body>
+
 </html>
