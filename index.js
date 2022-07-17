@@ -7,7 +7,7 @@ app.use(express.text());
 app.use(fileUpload());
 app.use(express.raw({ type: 'image/*', limit: '5mb' }));
 
-const port = 3000;
+const port = 3001;
 
 app.post('/api/single-file', (req, res) => {
     const contentType = req.header('content-type');
