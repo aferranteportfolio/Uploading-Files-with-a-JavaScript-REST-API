@@ -9,31 +9,39 @@
 
 <body>
 
-    <form method="post" action="/api/single-file" enctype="multipart/form-data">
+    <form method="post" action="/api/multi-file" enctype="multipart/form-data">
 
-        <input type="file" name="myfile" id="myfile" style="display:none"><br>
-        <button type="button" id="uploadButton">Choose file to upluad</button>
+        <input type="file" name="myfile" id="myfile" style="display:none" multiple><br>
+        <button type="button" id="uploadButton">Upload your cat pics</button>
         <div>Selected filename: <span id="filename"></span></div>
         <button type="submit">submit</button>
 
     </form>
 
-    <img />
 
-    <button id="submitXHR">Submit with XHR</button>
+    <button id="submitXHR">Can i haz cheese burger with XHR</button>
     <script>
         const input = document.querySelector('input')
-        const img = document.querySelector('img')
+ 
         document.getElementById('submitXHR').addEventListener('click', () => {
+            for (const f of input.files){
             const xhr = new XMLHttpRequest();
             xhr.responseType = 'blob'
             xhr.addEventListener('readystatechange', () => {
                 if (xhr.readyState === xhr.DONE) {
+                    const img = document.createElement('img')
                     img.src = URL.createObjectURL(xhr.response)
+                    document.body.appendChild(img)
                 }
             })
+            xhr.addEventListener('progress', e => {
+                console.log(`Filename ${f.name} complete: ${Math.round(e.loaded / e.total * 100)}%`)
+            })
             xhr.open('POST', '/api/single-file');
-            xhr.send(input.files[0]);
+            xhr.send(f);
+        }
+
+           
         });
 
     </script>
