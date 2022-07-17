@@ -10,11 +10,22 @@
     <form method="post" action="/api/single-file"
         enctype="multipart/form-data">
 
-        <input type="file" name="myfile" id="myfile"><br>
+        <input type="file" name="myfile" id="myfile" style="display:none"><br>
+        <button type="button" id="uploadButton">Choose file to upluad</button>
+        <div>Selected filename: <span id="filename"></span></div>
         <button type="submit">submit</button>
     
     </form>
-
+    <script>
+        const fileTag = document.getElementById('myfile')
+        const filenameElem = document.getElementById('filename')
+        document.getElementById('uploadButton').addEventListener('click', () => {
+            fileTag.click()
+        })
+        fileTag.addEventListener('change', () => {
+            filenameElem.innerHTML = fileTag.files[0].name
+        })
+    </script>
 
 </body>
 </html>
