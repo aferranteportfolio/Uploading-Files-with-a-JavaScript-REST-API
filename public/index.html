@@ -16,6 +16,18 @@
         <button type="submit">submit</button>
     
     </form>
+    <button id="submitXHR">Submit with XHR</button>
+    <script>
+        const form = document.querySelector('form')
+        document.getElementById('submitXHR').addEventListener('click', () => {
+            console.log('test')
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST','/api/single-file', false);
+            xhr.send(new FormData(form));
+        });
+        
+    </script>
+
     <script>
         const fileTag = document.getElementById('myfile')
         const filenameElem = document.getElementById('filename')
